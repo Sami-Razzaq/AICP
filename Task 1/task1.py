@@ -3,6 +3,9 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
 from statsmodels.tsa.seasonal import seasonal_decompose
+from statsmodels.graphics.tsaplots import plot_acf, plot_pacf 
+from statsmodels.tsa.statespace.sarimax import SARIMA
+from sklearn.metrics import mean_absolute_error, mean_squared_error 
 
 from pdb import set_trace
 import warnings
@@ -61,8 +64,17 @@ d30 = data[:30] # Gets first 30 days of data
 
 # Part Three
 # Trend and Seasonal Analysis
-# Period = 30 shows the monthly change in trend
+# Period = 30 shows the monthly change
 analysis = seasonal_decompose(data['Instagram reach'], model="multiplicative", period=30)
-analysis.plot()
+# analysis.plot()
+
+plot_pacf(data['Instagram reach'])
+plot_acf(data['Instagram reach'])
+
+p = 10  # Significant terms in ACF
+d = 1
+q = 2   # Significant terms in PACF
+
+
 
 plt.show()
