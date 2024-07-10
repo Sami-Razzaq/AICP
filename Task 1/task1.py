@@ -12,24 +12,37 @@ data = pd.read_csv('Instagram-Reach.csv')
 
 # print(data.isnull().sum())
 # print(data.isna().sum())
-# print(data.head())
-data['Date'] = pd.to_datetime(data['Date'])
+
+data['Date'] = pd.to_datetime(data['Date'], utc=False)
 data['Day'] = data['Date'].dt.day_name()
-dataDay = data.groupby('Day')
+dataDay = data.groupby('Day')['Instagram reach'].sum()
+# Setting order of days correct
+ordered_days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+dataDay = dataDay.reindex(ordered_days)
 
 # print(data.head())
 # print(data.tail())
+# print(data.describe())
+# print(data.info())
 
 # Part 2
 # Line Plot
-# data.plot(x='Date', y='Instagram reach', title='Instagram Reach over Time')
+# data.plot(x='Date', y='Instagram reach', xlabel='Time', ylabel='Instagram Reach', title='Instagram Reach over Time')
+# plt.grid(axis='y', linestyle='--', alpha=0.7)
+# plt.tight_layout()
 
-# Bar Plot for 30 Days
+# Bar Plot
 d30 = data[:30]
-# d30.plot.bar(x='Date', title='Instagram Reach over Time - 30 Days')
+# data['Date'] = data['Date'].dt.date
+# box = data.plot.bar(x='Date', xlabel='Time', ylabel='Instagram Reach', title='Instagram Reach over Time', rot='vertical')
+# box.grid(axis='y', linestyle='--', alpha=0.7)
+# box.get_xaxis().set_ticks([])
+# plt.tight_layout()
 
 # Box Plot
 # data.plot.box(title='Instagram Reach over Time')
+# plt.grid(axis='y', linestyle='--', alpha=0.7)
+# plt.tight_layout()
 
 # Mean Median Standard Deviation for Weekly Grouped Data
 # print("Mean: ")
@@ -40,15 +53,9 @@ d30 = data[:30]
 # print(data.groupby('Day').std())
 
 # Bar Plot per Week Day
-# dataDay.plot.bar(x='Day', y='Instagram reach', title='Instagram Reach over Time')
+# plt.figure()
+# dataDay.plot.bar(xlabel='Days of the Week', ylabel='Instagram Reach', title='Instagram Reach for Each Day of the Week', edgecolor='Black', rot=45)
+# plt.grid(axis='y', linestyle='--', alpha=0.7)
+# plt.tight_layout()
 
-# Bar Plot per Weekday combined for 30 days
-# sns.catplot(
-#     x="Date",       # x variable name
-#     y="Instagram reach",       # y variable name
-#     hue="Day",  # group variable name
-#     data=d30,     # dataframe to plot
-#     kind="bar",
-# )
-# This is test
 plt.show()
