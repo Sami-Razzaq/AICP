@@ -2,6 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
+from statsmodels.tsa.seasonal import seasonal_decompose
 
 from pdb import set_trace
 import warnings
@@ -19,6 +20,7 @@ dataDay = data.groupby('Day')['Instagram reach'].sum()
 # Setting order of days correct
 ordered_days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
 dataDay = dataDay.reindex(ordered_days)
+d30 = data[:30] # Gets first 30 days of data
 
 # print(data.head())
 # print(data.tail())
@@ -32,7 +34,6 @@ dataDay = dataDay.reindex(ordered_days)
 # plt.tight_layout()
 
 # Bar Plot
-d30 = data[:30]
 # data['Date'] = data['Date'].dt.date
 # box = data.plot.bar(x='Date', xlabel='Time', ylabel='Instagram Reach', title='Instagram Reach over Time', rot='vertical')
 # box.grid(axis='y', linestyle='--', alpha=0.7)
@@ -57,5 +58,11 @@ d30 = data[:30]
 # dataDay.plot.bar(xlabel='Days of the Week', ylabel='Instagram Reach', title='Instagram Reach for Each Day of the Week', edgecolor='Black', rot=45)
 # plt.grid(axis='y', linestyle='--', alpha=0.7)
 # plt.tight_layout()
+
+# Part Three
+# Trend and Seasonal Analysis
+# Period = 30 shows the monthly change in trend
+analysis = seasonal_decompose(data['Instagram reach'], model="multiplicative", period=30)
+analysis.plot()
 
 plt.show()
