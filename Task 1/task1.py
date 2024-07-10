@@ -14,9 +14,7 @@ data = pd.read_csv('Instagram-Reach.csv')
 # print(data.isna().sum())
 # print(data.head())
 data['Date'] = pd.to_datetime(data['Date'])
-# data['Date'] = data['Date'].dt.date # Removes the Time Portion
-data['Day'] = data['Date'].dt.dayofweek
-data['Day'] = data['Day'].map({0: 'Monday', 1: 'Tuesday', 2: 'Wednesday', 3: 'Thursday', 4: 'Friday', 5: 'Saturday', 6: 'Sunday'})
+data['Day'] = data['Date'].dt.day_name()
 dataDay = data.groupby('Day')
 
 # print(data.head())
@@ -41,8 +39,10 @@ d30 = data[:30]
 # print("\nStandard Deviation: ")
 # print(data.groupby('Day').std())
 
+# Bar Plot per Week Day
 # dataDay.plot.bar(x='Day', y='Instagram reach', title='Instagram Reach over Time')
 
+# Bar Plot per Weekday combined for 30 days
 # sns.catplot(
 #     x="Date",       # x variable name
 #     y="Instagram reach",       # y variable name
